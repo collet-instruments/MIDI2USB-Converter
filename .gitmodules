@@ -1,0 +1,15 @@
+[submodule "submodules/FreeRTOS-Kernel"]
+	path = submodules/FreeRTOS-Kernel
+	url = https://github.com/FreeRTOS/FreeRTOS-Kernel.git
+[submodule "submodules/tinyusb"]
+	path = submodules/tinyusb
+	url = https://github.com/hathach/tinyusb.git
+[submodule "submodules/tusb_ump"]
+	path = submodules/tusb_ump
+	url = https://github.com/midi2-dev/tusb_ump
+[submodule "submodules/AM_MIDI2.0Lib"]
+	path = submodules/AM_MIDI2.0Lib
+	url = https://github.com/midi2-dev/AM_MIDI2.0Lib
+[submodule "submodules/Unity"]
+	path = submodules/Unity
+	url = https://github.com/ThrowTheSwitch/Unity
