@@ -58,11 +58,6 @@ $(BUILD_DIR)/test_ump_discovery: src/test_ump_discovery.c $(UNITY_SRC) $(MOCK_SR
 	$(CC) $(CFLAGS) $(INCLUDES) -c ../Core/Src/ump_discovery.c -o $(BUILD_DIR)/ump_discovery.o
 	$(CC) $(CFLAGS) $(INCLUDES) $< $(BUILD_DIR)/ump_discovery.o ./mock/ump_discovery_mocks.c $(UNITY_SRC) $(MOCK_SRC) $(LDFLAGS) -o $@
 
-# Special rule for test_usb_descriptors that needs to link with Core source
-$(BUILD_DIR)/test_usb_descriptors: src/test_usb_descriptors.c $(UNITY_SRC) ../Core/Src/usb_descriptors.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c ../Core/Src/usb_descriptors.c -o $(BUILD_DIR)/usb_descriptors.o
-	$(CC) $(CFLAGS) $(INCLUDES) $< $(BUILD_DIR)/usb_descriptors.o $(UNITY_SRC) $(LDFLAGS) -o $@
-
 # Special rule for test_usb_strings that needs to link with Core source and UMP mocks
 $(BUILD_DIR)/test_usb_strings: src/test_usb_strings.c $(UNITY_SRC) ../Core/Src/usb_descriptors.c ./mock/ump_mocks.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c ../Core/Src/usb_descriptors.c -o $(BUILD_DIR)/usb_descriptors.o
