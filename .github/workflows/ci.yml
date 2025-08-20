@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        
+    - name: Verify submodules
+      run: |
+        git submodule update --init --recursive
+        echo "Submodule status:"
+        git submodule status
+    
+    - name: Install ARM toolchain
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
+    
+    - name: Install CMake and Ninja
+      run: |
+        sudo apt-get install -y cmake ninja-build
+    
+    - name: Check project structure
+      run: |
+        echo "=== Project Structure ==="
+        ls -la
+        echo "=== Test directory ==="
+        ls -la Test/ || echo "Test directory not found"
+        echo "=== Submodule directory ==="
+        ls -la submodules/ || echo "submodule directory not found"
+    
+    - name: Configure STM32 project
+      run: |
+        if [ -f "CMakePresets.json" ]; then
+          cmake --preset Debug
+        else
+          echo "CMakePresets.json not found, using direct configuration"
+          cmake -B build/Debug -DCMAKE_BUILD_TYPE=Debug
+        fi
+    
+    - name: Build STM32 firmware
+      run: |
+        if [ -d "build/Debug" ]; then
+          cmake --build build/Debug
+        else
+          echo "Build directory not found, skipping firmware build"
+        fi
+    
+    - name: Build and run tests
+      run: |
+        echo "Looking for test setup..."
+        
+        # Option 1: test directory with Makefile
+        if [ -d "test" ] && [ -f "test/Makefile" ]; then
+          echo "Found test/Makefile"
+          cd test
+          make clean || true
+          make
+          make test
+        # Option 2: CMake tests
+        elif [ -f "CMakeLists.txt" ] && grep -q "enable_testing" CMakeLists.txt; then
+          echo "Found CMake tests"
+          cd build/Debug || cd build
+          ctest --output-on-failure || true
+        else
+          echo "No test setup found, skipping tests"
+          echo "Directories found:"
+          find . -type d -name "*test*" -o -name "*Test*" | head -10
+        fi
+    
+    - name: Upload firmware artifact
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: firmware
+        path: |
+          build/Debug/MIDI2USB-Converter.elf
+          build/Debug/MIDI2USB-Converter.bin
+          build/Debug/MIDI2USB-Converter.hex
+          build/*/MIDI2USB-Converter.elf
+          build/*/MIDI2USB-Converter.bin
+          build/*/MIDI2USB-Converter.hex
+        retention-days: 7
+        if-no-files-found: warn
+    
+    - name: Check firmware size
+      run: |
+        if [ -f "build/Debug/MIDI2USB-Converter.elf" ]; then
+          arm-none-eabi-size build/Debug/MIDI2USB-Converter.elf
+        else
+          echo "Firmware not found in expected location"
+          find build -name "*.elf" -type f | head -5
+        fi

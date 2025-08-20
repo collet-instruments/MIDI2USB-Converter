@@ -1,0 +1,161 @@
+# Build output directories
+build/
+Debug/
+Release/
+/build*/
+
+# Test build artifacts
+test/build/
+test/*.gcda
+test/*.gcno
+test/*.gcov
+
+# STM32CubeMX generated temporary files
+.mxproject
+
+# CMSIS unused components (to minimize repository size)
+Drivers/CMSIS/Core_A/
+Drivers/CMSIS/DAP/
+Drivers/CMSIS/DSP/
+Drivers/CMSIS/NN/
+Drivers/CMSIS/RTOS/
+Drivers/CMSIS/RTOS2/
+Drivers/CMSIS/Documentation/
+
+# IDE and editor specific files
+.vscode/settings.json
+.vscode/*.log
+.vscode/.browse.c_cpp.db*
+*.code-workspace
+.claude/
+.vscode/
+.idea/
+.settings/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Compiled object files
+*.o
+*.obj
+*.d
+
+# Libraries
+*.lib
+*.a
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables (but not in build directories)
+*.exe
+*.out
+*.app
+
+# Linker output
+*.map
+*.lst
+*.su
+*.idb
+*.pdb
+*.ilk
+*.exp
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+arm-none-eabi.cmake
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Log files
+*.log
+
+# Coverage files
+*.gcov
+*.gcda
+*.gcno
+coverage.info
+coverage/
+htmlcov/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Documentation build
+docs/_build/
+docs/_static/
+docs/_templates/
+
+# STM32 and ARM specific files
+*.hex
+*.bin
+*.elf
+*.dfu
+*.axf
+*.htm
+*.lnp
+*.plg
+*.tra
+*.crf
+*.i
+*.s
+!startup_stm32f401xc.s
+*.flash
+*.dep
+*.ewt
+*.ewp
+*.eww
+*.ewd
+*.cspy.bat
+
+# Additional IDE and editor files
+.clangd
+.clangd/
+.cache/
+*.code-workspace.bak
+compile_flags.txt
+
+# Version control merge artifacts
+*.rej
+*.orig
+*.patch
+
+# Runtime generated files
+*.pid
+*.seed
+*.lock
+
+# KiCad backup files
+*-backups/
+*.bak
+*~
+*.tmp
+*.kicad_prl
+fp-info-cache
+fp-lib-table

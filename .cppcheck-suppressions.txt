@@ -1,0 +1,26 @@
+# Cppcheck suppressions file
+
+# Suppress missing include warnings (handled by compiler)
+missingInclude
+missingIncludeSystem
+
+# Suppress unused function warnings in library code
+unusedFunction
+
+# Suppress checker report information messages
+checkersReport
+
+# Suppress unmatched suppression warnings
+unmatchedSuppression
+
+# Common STM32 HAL related suppressions
+nullPointer:*/stm32f4xx_hal_*.c
+variableScope:*/stm32f4xx_hal_*.c
+
+# FreeRTOS related suppressions
+nullPointer:*/FreeRTOS-Kernel/*
+unreadVariable:*/FreeRTOS-Kernel/*
+
+# TinyUSB related suppressions
+nullPointer:*/tinyusb/*
+unreadVariable:*/tinyusb/*

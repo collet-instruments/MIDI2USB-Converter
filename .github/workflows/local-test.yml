@@ -1,0 +1,20 @@
+name: Local Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ test-ci ]
+
+jobs:
+  test-ci:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    
+    - name: Test workflow syntax
+      run: |
+        echo "Workflow syntax is valid"
+        echo "Running on branch: ${{ github.ref }}"

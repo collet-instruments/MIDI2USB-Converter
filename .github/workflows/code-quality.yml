@@ -1,0 +1,95 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install cppcheck
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cppcheck
+    
+    - name: Run cppcheck
+      run: |
+        # Run cppcheck focusing on our code only
+        echo "Running cppcheck on Core/Src..."
+        
+        # Use suppressions file if it exists
+        SUPP_ARG=""
+        if [ -f ".cppcheck-suppressions.txt" ]; then
+          SUPP_ARG="--suppressions-list=.cppcheck-suppressions.txt"
+        fi
+        
+        # Run cppcheck with focused settings
+        cppcheck --version
+        
+        cppcheck \
+          --enable=warning,style,performance,portability \
+          --inline-suppr \
+          $SUPP_ARG \
+          --quiet \
+          -I Core/Inc \
+          -I submodules/FreeRTOS-Kernel/include \
+          -I submodules/tinyusb/src \
+          -I submodules/AM_MIDI2.0Lib/include \
+          --force \
+          Core/Src/*.c
+        
+        echo "cppcheck completed successfully"
+    
+  format-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install clang-format
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-format
+    
+    - name: Check code formatting
+      run: |
+        echo "Checking code formatting..."
+        
+        # Find all C/C++ files
+        FILES=$(find Core/Src Core/Inc -name '*.c' -o -name '*.h' 2>/dev/null | head -20)
+        
+        if [ -z "$FILES" ]; then
+          echo "No files found to check"
+          exit 0
+        fi
+        
+        # Check formatting
+        FAILED=0
+        for file in $FILES; do
+          if ! clang-format --dry-run --Werror "$file" 2>/dev/null; then
+            echo "Formatting issues in: $file"
+            FAILED=1
+          fi
+        done
+        
+        if [ $FAILED -eq 1 ]; then
+          echo ""
+          echo "Code formatting issues found. Run 'clang-format -i' on the affected files."
+          echo "This is currently a warning only."
+        else
+          echo "All checked files are properly formatted."
+        fi
+        
+        # Always exit with 0 for now (warning only)
+        exit 0
+    
+    - name: Report formatting issues
+      if: failure()
+      run: |
+        echo "Code formatting issues found. Run 'clang-format -i' on the affected files."
