@@ -503,7 +503,7 @@ char const* string_desc_arr [] = {
 	USB_MANUFACTURER_STRING, //1
 	USB_PRODUCT_STRING_MIDI20, //2  // Default to MIDI 2.0 (will be dynamically changed)
 	USB_SERIAL_STRING, //3
-	USB_INTERFACE_STRING_ALT0, //4  // Interface name (also used for GTB)
+	USB_INTERFACE_STRING_GTB, //4  // Interface name (also used for GTB)
 	USB_INTERFACE_STRING_ALT0, //5
 	USB_INTERFACE_STRING_ALT1, //6
 };
@@ -544,15 +544,6 @@ const char* USB_GetSerialString(void)
     // For now, return the static serial string
     // In production, this would use board_usb_get_serial
     return USB_SERIAL_STRING;
-}
-
-/**
- * @brief Get interface name string
- * @return Interface name string
- */
-const char* USB_GetInterfaceString(void)
-{
-    return USB_INTERFACE_STRING_ALT0;  // Default to ALT0 string
 }
 
 /**

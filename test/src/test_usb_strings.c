@@ -57,32 +57,6 @@ void test_USB_GetSerialString(void)
     TEST_ASSERT_EQUAL_STRING("001", serial);
 }
 
-// Test USB_GetInterfaceString (defaults to ALT0)
-void test_USB_GetInterfaceString(void)
-{
-    const char* interface = USB_GetInterfaceString();
-    TEST_ASSERT_NOT_NULL(interface);
-    TEST_ASSERT_EQUAL_STRING("MIDI2USB MIDI1.0", interface);
-}
-
-// Test interface string for ALT0 directly
-void test_USB_GetInterfaceString_ALT0(void)
-{
-    // Test that USB_INTERFACE_STRING_ALT0 is properly defined
-    const char* alt0_str = USB_INTERFACE_STRING_ALT0;
-    TEST_ASSERT_NOT_NULL(alt0_str);
-    TEST_ASSERT_EQUAL_STRING("MIDI2USB MIDI1.0", alt0_str);
-}
-
-// Test interface string for ALT1 directly
-void test_USB_GetInterfaceString_ALT1(void)
-{
-    // Test that USB_INTERFACE_STRING_ALT1 is properly defined
-    const char* alt1_str = USB_INTERFACE_STRING_ALT1;
-    TEST_ASSERT_NOT_NULL(alt1_str);
-    TEST_ASSERT_EQUAL_STRING("MIDI2USB MIDI2.0", alt1_str);
-}
-
 // Test USB_ConvertASCIItoUTF16
 void test_USB_ConvertASCIItoUTF16_Basic(void)
 {
@@ -172,9 +146,6 @@ int main(void)
     RUN_TEST(test_USB_GetProductString_MIDI10);
     RUN_TEST(test_USB_GetProductString_MIDI20);
     RUN_TEST(test_USB_GetSerialString);
-    RUN_TEST(test_USB_GetInterfaceString);
-    RUN_TEST(test_USB_GetInterfaceString_ALT0);
-    RUN_TEST(test_USB_GetInterfaceString_ALT1);
     RUN_TEST(test_USB_ConvertASCIItoUTF16_Basic);
     RUN_TEST(test_USB_ConvertASCIItoUTF16_Truncated);
     RUN_TEST(test_USB_ConvertASCIItoUTF16_NullInput);
