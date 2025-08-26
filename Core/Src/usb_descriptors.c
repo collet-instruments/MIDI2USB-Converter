@@ -392,7 +392,7 @@ uint8_t const desc_fs_configuration[] = {
   // EP Descriptor - Endpoint - MIDI OUT
 	0x07,	// bLength (standard endpoint descriptor size)
 	DESC_TYPE_ENDPOINT,	// bDescriptorType = ENDPOINT
-	0x03,	// bEndpointAddress (OUT)
+	0x01,	// bEndpointAddress (OUT)
 	EP_ATTR_BULK,	// bmAttributes
 	FS_MAX_PACKET_SIZE,	// wMaxPacketSizeLSB
 	0x00,	// wMaxPacketSizeMSB
@@ -408,7 +408,7 @@ uint8_t const desc_fs_configuration[] = {
   // EP Descriptor - Endpoint - MIDI IN
 	0x07,	// bLength (standard endpoint descriptor size)
 	DESC_TYPE_ENDPOINT,	// bDescriptorType = ENDPOINT
-	0x83,	// bEndpointAddress (IN)
+	0x81,	// bEndpointAddress (IN)
 	EP_ATTR_BULK,	// bmAttributes
 	FS_MAX_PACKET_SIZE,	// wMaxPacketSizeLSB
 	0x00,	// wMaxPacketSizeMSB
@@ -444,7 +444,7 @@ uint8_t const desc_fs_configuration[] = {
   // EP Descriptor - Endpoint - MIDI OUT
 	0x07,	// bLength (standard endpoint descriptor size)
 	DESC_TYPE_ENDPOINT,	// bDescriptorType = ENDPOINT
-	0x03,	// bEndpointAddress (OUT)
+	0x01,	// bEndpointAddress (OUT)
 	EP_ATTR_BULK,	// bmAttributes
 	FS_MAX_PACKET_SIZE,	// wMaxPacketSizeLSB
 	0x00,	// wMaxPacketSizeMSB
@@ -460,7 +460,7 @@ uint8_t const desc_fs_configuration[] = {
   // EP Descriptor - Endpoint - MIDI IN
 	0x07,	// bLength (standard endpoint descriptor size)
 	DESC_TYPE_ENDPOINT,	// bDescriptorType = ENDPOINT
-	0x83,	// bEndpointAddress (IN)
+	0x81,	// bEndpointAddress (IN)
 	EP_ATTR_BULK,	// bmAttributes
 	FS_MAX_PACKET_SIZE,	// wMaxPacketSizeLSB
 	0x00,	// wMaxPacketSizeMSB
