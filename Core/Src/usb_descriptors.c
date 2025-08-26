@@ -499,7 +499,7 @@ uint8_t const gtbLengths[] = {sizeof(gtb0)};
 uint8_t const epInterface[] = {1};
 uint8_t const *group_descr[] = {gtb0};
 char const* string_desc_arr [] = {
-	"", //0
+	(const char[]){0x09, 0x04}, //0  // Language ID: English (0x0409)
 	USB_MANUFACTURER_STRING, //1
 	USB_PRODUCT_STRING_MIDI20, //2  // Default to MIDI 2.0 (will be dynamically changed)
 	USB_SERIAL_STRING, //3
