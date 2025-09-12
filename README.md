@@ -37,7 +37,9 @@
 
 - **Using USB MIDI1.0 Mode**
 
-  <img src="doc/midi1mode.png" alt="MIDI1.0 mode" width="200"/>
+<p align="left">
+  <img src="doc/MIDI1mode.png" alt="MIDI1.0 mode" width="200"/>
+</p>
 
   - Switch SETUP (SW1) to MIDI1.0 and connect the USB Type-C port (J1) to a USB host
   - The red LED (D5) will light up
@@ -47,7 +49,9 @@
 
 - **Using USB MIDI2.0 Mode**
 
-  <img src="doc/midi2mode.png" alt="MIDI2.0 mode" width="200"/>
+<p align="left">
+  <img src="doc/MIDI2mode.png" alt="MIDI2.0 mode" width="200"/>
+</p>
 
   - Switch SETUP (SW1) to MIDI2.0 and connect the USB Type-C port (J1) to a USB host
   - The blue LED (D6) will light up
