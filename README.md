@@ -20,7 +20,6 @@
 </p>
 
 ## ✨ Features
-
 - 🎵 **Dual Protocol Support**: MIDI 1.0 and MIDI 2.0 protocols
 - 🔌 **USB Device Classes**: 
   - MIDI 1.0: Standard USB MIDI Class
@@ -37,6 +36,9 @@
 ## 📖 Usage
 
 - **Using USB MIDI1.0 Mode**
+
+  <img src="doc/midi1mode.png" alt="MIDI1.0 mode" width="200"/>
+
   - Switch SETUP (SW1) to MIDI1.0 and connect the USB Type-C port (J1) to a USB host
   - The red LED (D5) will light up
   - MIDI packets received at the MIDI IN port (J3) will be sent to the USB host
@@ -44,6 +46,9 @@
   - Data transfer status can be monitored via indicator LEDs (D2, D3) for both MIDI IN and MIDI OUT ports
 
 - **Using USB MIDI2.0 Mode**
+
+  <img src="doc/midi2mode.png" alt="MIDI2.0 mode" width="200"/>
+
   - Switch SETUP (SW1) to MIDI2.0 and connect the USB Type-C port (J1) to a USB host
   - The blue LED (D6) will light up
   - MIDI packets (MIDI1.0 byte stream) received at the MIDI IN port (J3) are converted to USB MIDI2.0 UMP (Universal MIDI Packet) and sent to the USB host
@@ -52,6 +57,38 @@
     - Since MIDI2.0 Protocol sent from the USB host is converted to MIDI1.0 Protocol, some data may be lost
   - Data transfer status can be monitored via indicator LEDs (D2, D3) for both MIDI IN and MIDI OUT ports
   - Some operating systems do not support USB MIDI2.0 drivers, in which case MIDI2.0 mode may not be available. Please use MIDI1.0 mode in such cases.
+
+## 🔄 Protocol Conversion Rules
+
+### MIDI 1.0 → MIDI 2.0 Conversion
+The converter performs a 2-stage conversion process:
+1. **Stage 1**: MIDI 1.0 byte stream → UMP (MIDI 1.0 Protocol)
+2. **Stage 2**: UMP (MIDI 1.0 Protocol) → UMP (MIDI 2.0 Protocol)
+
+**Key transformations**:
+- **Resolution Enhancement**: 7-bit values are scaled up to 16-bit or 32-bit
+  - Note velocity: 7-bit → 16-bit (e.g., 127 → ~65024)
+  - Control Change values: 7-bit → 32-bit
+  - Pitch Bend: 14-bit → 32-bit
+- **Message Type**: Voice Messages are upgraded to UMP Message Type 4 (MIDI 2.0 Protocol)
+
+### MIDI 2.0 → MIDI 1.0 Conversion
+Direct conversion from UMP to MIDI 1.0 byte stream:
+
+**Key transformations**:
+- **Resolution Reduction**: High-resolution values are scaled down
+  - Control values: 32-bit → 7-bit
+- **Special handling for Note On velocity 0**:
+  - In MIDI 2.0, Note On with velocity 0 remains a Note On
+  - During conversion, velocity 0 is changed to 1 to prevent unintended Note Off behavior in MIDI 1.0
+- **Data Loss**: MIDI 2.0-specific features (extended CC, per-note controllers) cannot be represented in MIDI 1.0
+
+### Conversion Examples
+- **MIDI 1.0 Note On**: `90 3C 64` (Ch1, Middle C, Velocity 100)
+  → **MIDI 2.0 UMP**: `40902C00 32800000` (Velocity ≈ 51200)
+  
+- **MIDI 2.0 Note On**: Velocity 32768 (50% intensity)
+  → **MIDI 1.0**: `90 3C 40` (Velocity 64, precision reduced)
 
 ## 🛠️ Build Requirements
 
