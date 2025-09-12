@@ -137,8 +137,8 @@ typedef uint32_t muid_t;
 #define FB0_NUM_GROUPS       1     // Single group only (used for nNumGroupTrm in USB descriptor)
 
 // Device name strings - Easy to customize
-#define UMP_ENDPOINT_NAME       "USB MIDI 2.0 Converter"   // Main endpoint name
-#define UMP_PRODUCT_INSTANCE_ID "MIDI2USB-001"             // Unique product instance
+#define UMP_ENDPOINT_NAME       "MIDI2USB Converter"   // Main endpoint name
+#define UMP_PRODUCT_INSTANCE_ID "MIDI2USB"             // Unique product instance
 #define UMP_FB0_NAME            "Main Port"                // Function Block 0 name
 
 // MUID Configuration

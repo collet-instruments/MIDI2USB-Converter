@@ -15,8 +15,10 @@
 #define USB_PRODUCT_STRING_MIDI10   "MIDI2USB Converter (MIDI 1.0)"
 #define USB_PRODUCT_STRING_MIDI20   "MIDI2USB Converter (MIDI 2.0)"
 #define USB_SERIAL_STRING           "001"
-#define USB_INTERFACE_STRING_ALT0   "MIDI2USB MIDI1.0"
-#define USB_INTERFACE_STRING_ALT1   "MIDI2USB MIDI2.0"
+#define USB_INTERFACE_STRING_GTB    "Port 0"
+#define USB_INTERFACE_STRING_ALT0   "MIDI 1.0 Interface"
+#define USB_INTERFACE_STRING_ALT1   "MIDI 2.0 Interface"
+
 
 // String descriptor indices
 enum {
@@ -111,7 +113,6 @@ enum {
 const char* USB_GetManufacturerString(void);
 const char* USB_GetProductString(void);
 const char* USB_GetSerialString(void);
-const char* USB_GetInterfaceString(void);
 size_t USB_ConvertASCIItoUTF16(const char* ascii_str, uint16_t* utf16_buf, size_t max_chars);
 
 // Function prototypes for USB descriptor values

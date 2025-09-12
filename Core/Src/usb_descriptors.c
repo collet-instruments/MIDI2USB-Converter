@@ -392,7 +392,7 @@ uint8_t const desc_fs_configuration[] = {
   // EP Descriptor - Endpoint - MIDI OUT
 	0x07,	// bLength (standard endpoint descriptor size)
 	DESC_TYPE_ENDPOINT,	// bDescriptorType = ENDPOINT
-	0x03,	// bEndpointAddress (OUT)
+	0x01,	// bEndpointAddress (OUT)
 	EP_ATTR_BULK,	// bmAttributes
 	FS_MAX_PACKET_SIZE,	// wMaxPacketSizeLSB
 	0x00,	// wMaxPacketSizeMSB
@@ -408,7 +408,7 @@ uint8_t const desc_fs_configuration[] = {
   // EP Descriptor - Endpoint - MIDI IN
 	0x07,	// bLength (standard endpoint descriptor size)
 	DESC_TYPE_ENDPOINT,	// bDescriptorType = ENDPOINT
-	0x83,	// bEndpointAddress (IN)
+	0x81,	// bEndpointAddress (IN)
 	EP_ATTR_BULK,	// bmAttributes
 	FS_MAX_PACKET_SIZE,	// wMaxPacketSizeLSB
 	0x00,	// wMaxPacketSizeMSB
@@ -444,7 +444,7 @@ uint8_t const desc_fs_configuration[] = {
   // EP Descriptor - Endpoint - MIDI OUT
 	0x07,	// bLength (standard endpoint descriptor size)
 	DESC_TYPE_ENDPOINT,	// bDescriptorType = ENDPOINT
-	0x03,	// bEndpointAddress (OUT)
+	0x01,	// bEndpointAddress (OUT)
 	EP_ATTR_BULK,	// bmAttributes
 	FS_MAX_PACKET_SIZE,	// wMaxPacketSizeLSB
 	0x00,	// wMaxPacketSizeMSB
@@ -460,7 +460,7 @@ uint8_t const desc_fs_configuration[] = {
   // EP Descriptor - Endpoint - MIDI IN
 	0x07,	// bLength (standard endpoint descriptor size)
 	DESC_TYPE_ENDPOINT,	// bDescriptorType = ENDPOINT
-	0x83,	// bEndpointAddress (IN)
+	0x81,	// bEndpointAddress (IN)
 	EP_ATTR_BULK,	// bmAttributes
 	FS_MAX_PACKET_SIZE,	// wMaxPacketSizeLSB
 	0x00,	// wMaxPacketSizeMSB
@@ -499,11 +499,11 @@ uint8_t const gtbLengths[] = {sizeof(gtb0)};
 uint8_t const epInterface[] = {1};
 uint8_t const *group_descr[] = {gtb0};
 char const* string_desc_arr [] = {
-	"", //0
+	(const char[]){0x09, 0x04}, //0  // Language ID: English (0x0409)
 	USB_MANUFACTURER_STRING, //1
 	USB_PRODUCT_STRING_MIDI20, //2  // Default to MIDI 2.0 (will be dynamically changed)
 	USB_SERIAL_STRING, //3
-	USB_INTERFACE_STRING_ALT0, //4  // Interface name (also used for GTB)
+	USB_INTERFACE_STRING_GTB, //4  // Interface name (also used for GTB)
 	USB_INTERFACE_STRING_ALT0, //5
 	USB_INTERFACE_STRING_ALT1, //6
 };
@@ -544,15 +544,6 @@ const char* USB_GetSerialString(void)
     // For now, return the static serial string
     // In production, this would use board_usb_get_serial
     return USB_SERIAL_STRING;
-}
-
-/**
- * @brief Get interface name string
- * @return Interface name string
- */
-const char* USB_GetInterfaceString(void)
-{
-    return USB_INTERFACE_STRING_ALT0;  // Default to ALT0 string
 }
 
 /**
