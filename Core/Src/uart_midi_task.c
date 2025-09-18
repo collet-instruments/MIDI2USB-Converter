@@ -171,40 +171,28 @@ static void ProcessMidiByte(uint8_t rx_byte) {
       uart_sysex_buffer.overflow = false;
     }
     
-    // Normal status byte processing
-    midi_running_status = rx_byte;
-    midi_msg_buffer[0] = rx_byte;
-    midi_msg_index = 1;
-    
-    // Check if this is a single-byte message
+    // Check if this is a real-time message FIRST
     if (rx_byte >= 0xF8) {
-      // Real-time message (single byte)
-#if MIDI_FILTER_ACTIVE_SENSING
-      if (rx_byte == MIDI_ACTIVE_SENSING) {
-        midi_msg_index = 0;
-        return;
-      }
-#endif
-
-#if MIDI_FILTER_TIMING_CLOCK
-      if (rx_byte == MIDI_TIMING_CLOCK) {
-        midi_msg_index = 0;
-        return;
-      }     
-#endif
+      // Real-time message (single byte) - DO NOT change running status
+      // Don't filter here - send all to queue for filtering at USB stage
       MIDIPacket_t midi_packet;
       midi_packet.data[0] = rx_byte;
       midi_packet.length = 1;
       if (xQueueSend(xUartToUsbQueue, &midi_packet, 0) != pdTRUE) {
         midi_stats.queue_full_errors++;
       }
-      midi_msg_index = 0;
-      
+      // Don't change midi_msg_index or midi_running_status
+
       // Turn on LED when message is sent
       TurnOnRxLed();
     } else if (rx_byte >= 0xF0) {
       // System Common message - reset running status
       MIDI_ResetRunningStatus();
+      midi_msg_buffer[0] = rx_byte;
+      midi_msg_index = 1;
+    } else {
+      // Normal Channel Voice status byte (0x80-0xEF)
+      midi_running_status = rx_byte;
       midi_msg_buffer[0] = rx_byte;
       midi_msg_index = 1;
     }
@@ -299,6 +287,20 @@ void vUartToUsbTask(void *pvParameters) {
   while (1) {
     // Wait for MIDI packet from UART RX
     if (xQueueReceive(xUartToUsbQueue, &midi_packet, portMAX_DELAY) == pdTRUE) {
+
+      // Apply filters here at USB transmission stage
+#if MIDI_FILTER_TIMING_CLOCK
+      if (midi_packet.length == 1 && midi_packet.data[0] == MIDI_TIMING_CLOCK) {
+        continue;  // Skip this message, immediately get next from queue
+      }
+#endif
+
+#if MIDI_FILTER_ACTIVE_SENSING
+      if (midi_packet.length == 1 && midi_packet.data[0] == MIDI_ACTIVE_SENSING) {
+        continue;  // Skip this message, immediately get next from queue
+      }
+#endif
+
       // Convert MIDI message to USB MIDI packet
       uint8_t usb_packet[4] = {0};
       uint8_t cin;
@@ -316,9 +318,11 @@ void vUartToUsbTask(void *pvParameters) {
         } else {
           cin = USB_MIDI_CIN_SYSEX_END_3;
         }
-      } else if (midi_packet.length == 3 && (midi_packet.data[0] < 0x80 || 
-                (midi_packet.data[1] < 0x80 && midi_packet.data[2] < 0x80))) {
-        // SysEx continue (all data bytes)
+      } else if (midi_packet.length == 3 &&
+                 midi_packet.data[0] < 0x80 &&
+                 midi_packet.data[1] < 0x80 &&
+                 midi_packet.data[2] < 0x80) {
+        // SysEx continue (all three bytes are data bytes)
         cin = USB_MIDI_CIN_SYSEX_START;
       } else {
         // Normal MIDI message

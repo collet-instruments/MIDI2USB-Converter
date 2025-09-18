@@ -79,7 +79,20 @@ void vMidi2UartToUmpTask(void *pvParameters)
   {
     // Wait for MIDI 1.0 packet from UART
     if (xQueueReceive(xUartToUsbQueue, &midi_packet, portMAX_DELAY) == pdTRUE) {
-      
+
+      // Apply filters at UMP conversion stage (same as MIDI 1.0 mode)
+#if MIDI_FILTER_TIMING_CLOCK
+      if (midi_packet.length == 1 && midi_packet.data[0] == MIDI_TIMING_CLOCK) {
+        continue;  // Skip this message, immediately get next from queue
+      }
+#endif
+
+#if MIDI_FILTER_ACTIVE_SENSING
+      if (midi_packet.length == 1 && midi_packet.data[0] == MIDI_ACTIVE_SENSING) {
+        continue;  // Skip this message, immediately get next from queue
+      }
+#endif
+
       // Handle different MIDI message types based on reference implementation
       if (midi_packet.length == 1) {
         // Single-byte message (System Realtime like F8 Clock)
