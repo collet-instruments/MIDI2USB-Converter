@@ -1,7 +1,7 @@
 # 🎹 MIDI2USB Converter
 
 <p align="center">
-  <img src="doc/midi2usb_logo.png" alt="MIDI2USB Logo" width="400"/>
+  <img src="doc/midi2usb.jpg" alt="MIDI2USB Logo" width="400"/>
 </p>
 
 <p align="center">
@@ -35,32 +35,28 @@
 
 ## 📖 Usage
 
-- **Using USB MIDI1.0 Mode**
+### Using USB MIDI1.0 Mode
 
-<p align="left">
   <img src="doc/MIDI1mode.png" alt="MIDI1.0 mode" width="200"/>
-</p>
 
-  - Switch SETUP (SW1) to MIDI1.0 and connect the USB Type-C port (J1) to a USB host
-  - The red LED (D5) will light up
-  - MIDI packets received at the MIDI IN port (J3) will be sent to the USB host
-  - Similarly, MIDI packets sent from the USB host will be output to the MIDI OUT port (J4)
-  - Data transfer status can be monitored via indicator LEDs (D2, D3) for both MIDI IN and MIDI OUT ports
+- Switch SETUP (SW1) to MIDI1.0 and connect the USB Type-C port (J1) to a USB host
+- The red LED (D5) will light up
+- MIDI packets received at the MIDI IN port (J3) will be sent to the USB host
+- Similarly, MIDI packets sent from the USB host will be output to the MIDI OUT port (J4)
+- Data transfer status can be monitored via indicator LEDs (D2, D3) for both MIDI IN and MIDI OUT ports
 
-- **Using USB MIDI2.0 Mode**
+### Using USB MIDI2.0 Mode
 
-<p align="left">
   <img src="doc/MIDI2mode.png" alt="MIDI2.0 mode" width="200"/>
-</p>
 
-  - Switch SETUP (SW1) to MIDI2.0 and connect the USB Type-C port (J1) to a USB host
-  - The blue LED (D6) will light up
-  - MIDI packets (MIDI1.0 byte stream) received at the MIDI IN port (J3) are converted to USB MIDI2.0 UMP (Universal MIDI Packet) and sent to the USB host
-    - At this time, MIDI1.0 Voice Messages are extended to MIDI2.0 Protocol (UMP Message Type 4)
+- Switch SETUP (SW1) to MIDI2.0 and connect the USB Type-C port (J1) to a USB host
+- The blue LED (D6) will light up
+- MIDI packets (MIDI1.0 byte stream) received at the MIDI IN port (J3) are converted to USB MIDI2.0 UMP (Universal MIDI Packet) and sent to the USB host
+  - At this time, MIDI1.0 Voice Messages are extended to MIDI2.0 Protocol (UMP Message Type 4)
   - Similarly, MIDI2.0 UMP sent from the USB host is converted to MIDI1.0 byte stream and output to the MIDI OUT port (J4)
     - Since MIDI2.0 Protocol sent from the USB host is converted to MIDI1.0 Protocol, some data may be lost
-  - Data transfer status can be monitored via indicator LEDs (D2, D3) for both MIDI IN and MIDI OUT ports
-  - Some operating systems do not support USB MIDI2.0 drivers, in which case MIDI2.0 mode may not be available. Please use MIDI1.0 mode in such cases.
+- Data transfer status can be monitored via indicator LEDs (D2, D3) for both MIDI IN and MIDI OUT ports
+- Some operating systems do not support USB MIDI2.0 drivers, in which case MIDI2.0 mode may not be available. Please use MIDI1.0 mode in such cases.
 
 ## 🔄 Protocol Conversion Rules
 
@@ -93,6 +89,45 @@ Direct conversion from UMP to MIDI 1.0 byte stream:
   
 - **MIDI 2.0 Note On**: Velocity 32768 (50% intensity)
   → **MIDI 1.0**: `90 3C 40` (Velocity 64, precision reduced)
+
+## ⚠️ Caution
+
+- The IN/OUT terminals of this product are **TRS MIDI Type-A only**. Do not use other types of cables.  
+- Make sure not to confuse IN and OUT connections. Incorrect wiring may cause reverse current and damage your equipment.  
+- This product is designed for **USB Type-C 5V power supply only**. Do not apply any other voltage.  
+- The product may be damaged by static electricity. Please handle with proper ESD precautions.  
+- Modifications or improper soldering may cause malfunction or accidents.  
+- Do not use in environments with high temperature, high humidity, direct sunlight, or condensation.  
+- Compatibility with all MIDI devices is **not guaranteed**.  
+
+## 📜 Disclaimer
+
+- This product is provided for **electronic hobby, educational, and research purposes**.  
+- It is **not a consumer-ready product** and has **not been certified** under any safety standards or regulations (such as **PSE, Radio Act certification, CE, UL**, etc.).  
+- By purchasing and using this product, you agree to the following terms:
+
+### Use at Your Own Risk
+- We accept no responsibility for any damage to equipment, personal injury, fire, data loss, or any other loss or accident resulting from the use of this product.
+
+### Limitations of Use
+- Do not use this product in industrial equipment, medical devices, safety systems, or any other applications where human life or property may be at risk.  
+- Continuous long-term operation or use under heavy loads is not intended.
+
+### Modification and Connections
+- We are not responsible for any malfunction or damage caused by modification of this product or connection to unintended devices.
+
+### Returns and Warranty
+- If a manufacturing defect is confirmed, we will provide a replacement or refund.  
+- No other warranties or guarantees are offered.
+
+## ⚙️ Modification and Collaboration
+
+- This product is provided as **open hardware**.  
+  You are free to modify, reuse, or build upon the circuit and firmware.  
+  However, **we cannot guarantee the operation or safety of modified versions**.  
+
+- We welcome contributions from developers and users who wish to improve the design.  
+  Please feel free to share feedback, modifications, or enhancement ideas.  
 
 ## 🛠️ Build Requirements
 
@@ -316,3 +351,7 @@ For questions and support:
 - Open an issue on GitHub
 - Check existing issues and discussions
 - See documentation in the repository
+
+## 📝 Copyright
+
+Copyright © 2025 Collet Instruments. All rights reserved.
