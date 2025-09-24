@@ -41,6 +41,20 @@ endif()
 # Set the project name
 set(CMAKE_PROJECT_NAME MIDI2USB-Converter)
 
+# Version configuration (can be overridden from command line)
+if(DEFINED VERSION_MAJOR)
+    add_compile_definitions(VERSION_MAJOR=${VERSION_MAJOR})
+endif()
+if(DEFINED VERSION_MINOR)
+    add_compile_definitions(VERSION_MINOR=${VERSION_MINOR})
+endif()
+if(DEFINED VERSION_PATCH)
+    add_compile_definitions(VERSION_PATCH=${VERSION_PATCH})
+endif()
+if(DEFINED VERSION_STRING)
+    add_compile_definitions(VERSION_STRING=${VERSION_STRING})
+endif()
+
 # Include toolchain file
 include("cmake/gcc-arm-none-eabi.cmake")
 

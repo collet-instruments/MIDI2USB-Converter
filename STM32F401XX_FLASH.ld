@@ -76,6 +76,14 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
+  /* Version information immediately after vector table */
+  .version_info :
+  {
+    . = ALIGN(4);
+    KEEP(*(.version_info)) /* Version string */
+    . = ALIGN(64);  /* Ensure version section is exactly 64 bytes */
+  } >FLASH
+
   /* The program code and other data goes into FLASH */
   .text :
   {
