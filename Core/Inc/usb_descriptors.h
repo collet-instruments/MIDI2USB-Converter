@@ -6,9 +6,10 @@
 #include <stddef.h>
 
 // USB Vendor and Product IDs
-#define USB_VID           0x6666  // Vendor ID for both MIDI modes
-#define USB_PID_MIDI10    0x6602  // Product ID for MIDI 1.0
-#define USB_PID_MIDI20    0x6666  // Product ID for MIDI 2.0
+// Placeholder - awaiting OpenMoko assignment
+#define USB_VID           0x1d50  // Vendor ID for both MIDI modes
+#define USB_PID_MIDI10    0x6194  // Product ID for MIDI 1.0
+#define USB_PID_MIDI20    0x6195  // Product ID for MIDI 2.0
 
 // USB String definitions
 #define USB_MANUFACTURER_STRING     "MIDI2USB"

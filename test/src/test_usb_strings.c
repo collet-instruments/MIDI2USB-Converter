@@ -119,7 +119,7 @@ void test_USB_ConvertASCIItoUTF16_EmptyString(void)
 void test_USB_GetVendorID(void)
 {
     uint16_t vid = USB_GetVendorID();
-    TEST_ASSERT_EQUAL_HEX16(0x6666, vid);
+    TEST_ASSERT_EQUAL_HEX16(0x1d50, vid);
 }
 
 // Test USB_GetProductID for MIDI 1.0
@@ -127,7 +127,7 @@ void test_USB_GetProductID_MIDI10(void)
 {
     mock_midi_mode = MIDI_MODE_1_0;
     uint16_t pid = USB_GetProductID();
-    TEST_ASSERT_EQUAL_HEX16(0x6602, pid);
+    TEST_ASSERT_EQUAL_HEX16(0x6194, pid);
 }
 
 // Test USB_GetProductID for MIDI 2.0
@@ -135,7 +135,7 @@ void test_USB_GetProductID_MIDI20(void)
 {
     mock_midi_mode = MIDI_MODE_2_0;
     uint16_t pid = USB_GetProductID();
-    TEST_ASSERT_EQUAL_HEX16(0x6666, pid);
+    TEST_ASSERT_EQUAL_HEX16(0x6195, pid);
 }
 
 int main(void)
